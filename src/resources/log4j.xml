@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "http://builddev.gfinet.com/maven2/log4j/log4j.dtd">
+
+<log4j:configuration>
+
+
+    <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+        <param name="Threshold" value="INFO"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c{1} %x - %m\n"/>
+        </layout>
+    </appender>
+
+    <!--<logger name="com.gfigroup">-->
+        <!--<level value="WARN"/>-->
+    <!--</logger>-->
+
+    <!--<logger name="org">-->
+        <!--<level value="WARN"/>-->
+    <!--</logger>-->
+
+    <!--<logger name="com.gfigroup.fmk.spine.monitor">-->
+        <!--<level value="WARN"/>-->
+    <!--</logger>-->
+    <!--<logger name="com.gfigroup.fmk.spine.spring">-->
+        <!--<level value="WARN"/>-->
+    <!--</logger>-->
+    <!--<logger name="com.gfigroup.fmk.spine.cache">-->
+        <!--<level value="WARN"/>-->
+    <!--</logger>-->
+
+    <logger name="org.apache.kafka.clients.producer.internals">
+        <level value="WARN"/>
+    </logger>
+  <logger name="org.apache.kafka.common.network">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="java.net">
+        <level value="WARN"/>
+    </logger>
+
+
+    <logger name="com.gfigroup.fmk.messaging.jms.client.ping">
+        <level value="WARN"/>
+    </logger>
+
+    <root>
+        <priority value="TRACE"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </root>
+</log4j:configuration>

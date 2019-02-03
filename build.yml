@@ -1,0 +1,12 @@
+# Properties for CiaD Jenkins build pipelines
+# #artifactoryReleaseRepo: local-release-CiAD
+emailList: pedram.sadr@adv.com
+skipUnitTests: true
+skipFortifyScan: true
+artifactId: guile-kafka_2.11
+packageType: jar
+versionDelimiter: -b
+skipSonarScan: true
+# #sbt:
+# #  packageTask: rest-api/package
+# #  publishTask: rest-api/publish

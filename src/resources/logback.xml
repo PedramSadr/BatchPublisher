@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--<logger name="scala.slick" level="INFO"/>-->
+    <!--<logger name="slick.jdbc" level="INFO" />-->
+    <!--<logger name="com.mchange.v2" level="INFO"/>-->
+    <property name="mkv.logsdir" value="."/>
+    <!--<property file="${mkv.file:-mkv.jinit}"/>-->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%date{ISO8601} %-5level %logger{0} %X{akkaSource} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${mkv.logsdir}/log/KAFKA_BATCH_PUBLISHER_%d{yyyy_MM_dd}.%i.log.zip</FileNamePattern>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 1000MB -->
+                <maxFileSize>1000MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!--&lt;!&ndash; records the json 'schemas' inferred for each ION chain &ndash;&gt;-->
+    <!--<appender name="SCHEMAS" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<file>${mkv.logsdir}/LOGS/schemas.log</file>-->
+        <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+            <!--<pattern>%msg%n</pattern>-->
+        <!--</encoder>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--<FileNamePattern>${mkv.logsdir}/LOGS/schemas_%d{yyyy_MM_dd}.%i.log.zip</FileNamePattern>-->
+            <!--<maxHistory>30</maxHistory>-->
+            <!--<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+                <!--&lt;!&ndash; or whenever the file size reaches 1000MB &ndash;&gt;-->
+                <!--<maxFileSize>1000MB</maxFileSize>-->
+            <!--</timeBasedFileNamingAndTriggeringPolicy>-->
+        <!--</rollingPolicy>-->
+    <!--</appender>-->
+
+    <!-- used to record stats about how long message hashing takes -->
+    <appender name="PERFORMANCE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${mkv.logsdir}/LOGS/hashPerformance/perftest.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%date{ISO8601} %-5level %logger{0} %X{akkaSource} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${mkv.logsdir}/LOGS/hashPerformance/perftest_%d{yyyy_MM_dd}.%i.log.zip</FileNamePattern>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 1000MB -->
+                <maxFileSize>1000MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- the log file for the CSV writer;
+          writes <id>,<topic>,<time> for each message received from ION-->
+    <appender name="CSVWRITER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${mkv.logsdir}/LOGS/troubleshooting/messageStatus.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${mkv.logsdir}/LOGS/troubleshooting/messageStatus_%d{yyyy_MM_dd}.%i.log.zip</FileNamePattern>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{ISO8601} %-5level %logger{0} %X{akkaSource} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="csvwriter" level="INFO" additivity="false">
+        <appender-ref ref="CSVWRITER"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <!--<logger name="schema" level="INFO" additivity="false">-->
+        <!--<appender-ref ref="SCHEMAS"/>-->
+        <!--<appender-ref ref="STDOUT"/>-->
+    <!--</logger>-->
+    <!--<logger name="performance" level="DEBUG" additivity="false">-->
+        <!--<appender-ref ref="PERFORMANCE"/>-->
+        <!--<appender-ref ref="STDOUT"/>-->
+    <!--</logger>-->
+    <root name="default" level="${mkv.akka.loglevel}">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
